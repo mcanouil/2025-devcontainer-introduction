@@ -1,0 +1,26 @@
+name: Release Reveal.js Slides
+
+on:
+  workflow_dispatch:
+    inputs:
+      quarto:
+        description: "Quarto version"
+        required: true
+        default: "release"
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+  id-token: write
+  pages: write
+
+jobs:
+  release:
+    uses: mcanouil/quarto-workflows/.github/workflows/release-revealjs.yml@main
+    secrets:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      APP_KEY: ${{ secrets.APP_KEY }}
+    with:
+      quarto: "${{ github.event.inputs.quarto }}"
+      gh-app-id: "${{ vars.APP_ID }}"
