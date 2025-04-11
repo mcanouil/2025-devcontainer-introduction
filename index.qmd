@@ -1,10 +1,9 @@
 ---
-title: "A Title"
-subtitle: "A Subtitle"
+title: "Pizz'Stats: Introduction to Dev Container"
+subtitle: "A Simple Way to Reproduce Your Environment"
 author: "Mickaël Canouil, *Ph.D.*"
-institute: "Freelance"
+institute: "IT&M Stats"
 date: today
-embed-resources: false
 format: coeos-revealjs
 ---
 
