@@ -1,5 +1,5 @@
 ---
-title: "Pizz'Stats: Introduction to Dev Container"
+title: "Introduction to Development Container"
 subtitle: "A Simple Way to Reproduce Your Environment"
 author: "Mickaël Canouil, *Ph.D.*"
 institute: "IT&M Stats"
@@ -9,19 +9,226 @@ format:
     logo: https://raw.githubusercontent.com/mcanouil/hex-stickers/main/SVG/mc.svg
     mermaid:
       theme: dark
-    title-slide-attributes:
-      data-background-image: assets/images/saga.png
-      data-background-opacity: "0.35"
+    include-in-header:
+      - text: |
+          <style>
+            /*.reveal .slides {
+              border: 1px solid #fafafa;
+            }*/
+          </style>
+code-annotations: select
 ---
 
-# PART 1 Without `code` {.center .center-x}
+## About Me
 
-## New slide {.smaller}
+:::: {style="font-size: 50%;"}
+:::: {layout="[-0.03, 0.15, -0.045, 0.375, 0.40]" layout-valign="center"}
+![](https://github.com/mcanouil.png){.picture fig-alt="Portrait of Mickaël Canouil"}
 
-{{< lipsum 1 >}}
+:::: {}
 
-## Another slide {.smaller}
+- [{{< iconify fa6-solid:house-chimney-user >}} mickael.canouil.fr](https://mickael.canouil.fr/){style="text-decoration: none;"}
+- [{{< iconify fa6-solid:envelope >}} pro@mickael.canouil.dev](mailto:pro@mickael.canouil.dev){style="text-decoration: none;"}
+- [{{< iconify fa6-brands:github >}} \@mcanouil](https://github.com/mcanouil/){style="text-decoration: none;"}
+- [{{< iconify fa6-brands:linkedin >}} mickaelcanouil](https://www.linkedin.com/in/mickaelcanouil/){style="text-decoration: none;"}
 
-![An image]({{< placeholder 900 300>}})
+:::
+
+:::: {}
+
+- [{{< iconify fa6-brands:bluesky >}} \@mickael.canouil.fr](https://bsky.app/profile/mickael.canouil.fr/){style="text-decoration: none;"}
+- [{{< iconify fa6-brands:mastodon >}} \@MickaelCanouil\@fosstodon.org](https://fosstodon.org/@MickaelCanouil/){style="text-decoration: none;"}
+- [{{< iconify fa6-brands:x-twitter >}} \@MickaelCanouil](https://x.com/MickaelCanouil/){style="text-decoration: none;"}
+
+:::
+
+:::
+:::
+
+:::: {style="font-size: 55%; font-style: italic;"}
+
+- I am Mickaël CANOUIL, I hold a Ph.D. in Biostatistics, with over a decade of academic experience in the genetics of type 2 diabetes and obesity.  
+- My research has contributed to understanding the genetic and molecular mechanisms underlying metabolic diseases, with publications in leading journals.  
+- Currently, I work as a consultant in biostatistics, applying my expertise to diverse projects in multi-omics and data analysis.  
+- I am also deeply involved in the Quarto ecosystem, developing extensions and tools that enhance reproducibility and scientific communication.  
+- My contributions, including [Quarto Wizard](https://github.com/mcanouil/quarto-wizard) and [various Quarto extensions](https://m.canouil.dev/quarto-extensions/authors/mcanouil.html), aim to streamline workflows for researchers and data scientists.  
+- You can explore my work on [GitHub](https://github.com/mcanouil), my [projects](https://mickael.canouil.fr/projects), and my [publications](https://mickael.canouil.fr/publications).
+
+:::
+
+# Introduction
+
+## What Are Dev Containers?
+
+- Dev Containers allow developers to work inside a predefined, isolated environment.
+
+- By leveraging [Docker](https://www.docker.com/), they provide a consistent and repeatable setup, removing "it works on my machine" issues.
+
+- They integrate seamlessly with [Visual Studio Code](https://code.visualstudio.com/) (VS Code) and [GitHub Codespaces](https://github.com/features/codespaces), enabling developers to code, build, and debug inside the container while using their familiar tools.
+
+## Why Use Dev Containers?
+
+- Developers often face challenges in maintaining consistency across various systems.
+
+- Imagine working with a Python project that requires specific dependencies.  
+One developer may have version conflicts, another may struggle with installation.
+
+- Dev Containers solve this by ensuring each team member uses the exact same environment, reducing debugging time and improving workflow efficiency.
+
+# Understanding Dev Containers
+
+## How Dev Containers Work
+
+Rather than installing dependencies manually, developers define their development environment inside a `.devcontainer` directory in their Git repository.  
+This configuration directory instructs Docker to create a workspace that includes all necessary tools and settings.
+
+A typical workflow:
+
+1. Developer opens a project in Visual Studio Code.
+2. VS Code detects the presence of a `.devcontainer` configuration.
+3. The container is built and launched, ready for coding.
+
+## Prerequisites
+
+Before diving into Dev Containers, ensure:
+
+- **Visual Studio Code** is installed and up to date.
+- **Docker** is running ([Docker Desktop](https://www.docker.com/products/docker-desktop/) or another compatible solution).
+- [**Dev Containers Extension**](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) is added to VS Code.
+
+# Setting Up Dev Containers
+
+## Creating a Dev Container
+
+Let's get started! To create a Dev Container, follow these steps:
+
+1. Open your project in VS Code.
+2. Use the **Command Palette** and search for "Dev Containers: Add Dev Container Configuration Files..."
+3. Choose an appropriate template for your stack (Node.js, Python, Rust, etc.).
+4. Your project now contains a `.devcontainer/devcontainer.json` file.
+
+Editing this file allows further customisation.
+
+## Example `devcontainer.json`
+
+Consider a simple [Quarto CLI](https://quarto.org/) setup:
+
+```{.json code-line-numbers="1-13|3|8|9|1-13"}
+{
+  "name": "My Dev Container",
+  "image": "ghcr.io/mcanouil/quarto-codespaces:latest", // <1>
+  "remoteUser": "vscode",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "quarto.quarto", // <2>
+        "mcanouil.quarto-wizard" // <3>
+      ]
+    }
+  }
+}
+```
+
+1. The Docker image is specified in the `image` field.
+   It's built using a Dev Container specification that you can find in [`.github/.devcontainer`](https://github.com/mcanouil/quarto-codespaces/tree/main/.github/.devcontainer).
+2. The [`quarto` extension](https://github.com/quarto-dev/quarto) for Visual Studio Code / Positron to provide support for Quarto documents.
+3. The [`quarto-wizard` extension](https://github.com/mcanouil/quarto-wizard) for Visual Studio Code / Positron to provide assistance in managing Quarto extensions
+
+## Customising Your Environment
+
+A basic setup may be sufficient, but advanced users often refine their environment:
+
+```{.json code-line-numbers="1-17|5-8|10-12|1-17"}
+{
+  "name": "My Dev Container",
+  "image": "ghcr.io/mcanouil/quarto-codespaces:latest",
+  "remoteUser": "vscode",
+  "features": { // <1>
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+  "customizations": {
+    "settings": { // <2>
+      "r.rterm.option": [ "--no-save", "--no-restore-data", "--quiet"]
+    },
+    "vscode": {
+      "extensions": ["quarto.quarto", "mcanouil.quarto-wizard"]
+    }
+  }
+}
+```
+
+1. **Features**: This section allows you to add [pre-defined features](https://containers.dev/features) to your container, such as **Docker-in-Docker** or the **GitHub CLI**.
+2. **Settings**: Custom Visual Studio Code settings can be defined here, such as R options.
+
+# Building and Running the Dev Container
+
+## Visual Studio Code
+
+Once the configuration is set, building and running the container is straightforward:
+
+1. Open the Command Palette and select "Dev Containers: Reopen in Container".
+2. VS Code will build the container based on the configuration.
+3. Once built, the container will launch, and you can start coding.
+
+## GitHub Codespaces
+
+For those using GitHub Codespaces, the process is similar:
+
+1. Open your repository on GitHub.
+2. Click on the green "Code" button and select "Open with Codespaces".
+3. Choose "New codespace" to create a new Codespace.
+4. GitHub will automatically build the Dev Container based on the `.devcontainer` configuration.
+5. Once the Codespace is ready, you can start coding directly in the browser.
+
+## The Dev Container CLI
+
+For advanced users, the [Dev Container CLI](https://code.visualstudio.com/docs/devcontainers/devcontainer-cli) provides additional flexibility.  
+With simple commands, developers can build, start, and interact with their containers from the terminal.
+
+1. Install the CLI globally using `npm`:
+
+   ```sh
+   npm install -g @devcontainers/cli
+   ```
+
+2. Use the CLI to build and run your Dev Container:
+
+   ```sh
+   devcontainer build --workspace-folder .
+   devcontainer up --id-label my-container
+   devcontainer exec my-container ls
+   ```
+
+# Live Demonstration
+
+# Conclusion
+
+## Use Cases and Benefits
+
+Picture a developer moving between machines or working remotely.  
+Instead of reinstalling dependencies, they simply open their project inside a pre-configured Dev Container.
+
+Other advantages:
+
+- **Remote Development:** Work on code from any system.
+- **Team Collaboration:** Share a unified development environment.
+- **Sandboxing:** Experiment with dependencies without risking the host machine.
+- **CI/CD Integration:** Ensure build reproducibility.
+
+## Summary
+
+Dev Containers provide a structured, reliable development environment that simplifies onboarding and improves collaboration.  
+Whether working solo or in a team, adopting containerised development ensures that everyone works inside the same, pre-configured setup.
+
+:::: {.center-x style="margin: 2.5em;"}
+With Dev Containers, development becomes more predictable and efficient.  
+Embrace the change today!
+:::
+
+## Further Resources
+
+- [Dev Containers Overview](https://code.visualstudio.com/docs/devcontainers/containers)
+- [Creating a Dev Container](https://code.visualstudio.com/docs/devcontainers/create-dev-container)
 
 {{< include _extensions/mcanouil/coeos/_about.qmd >}}
