@@ -1,25 +1,59 @@
-name: Release Quarto Extension
+name: Deploy Slides to GitHub Pages
 
 on:
   workflow_dispatch:
-    inputs:
-      version:
-        type: string
-        description: "Version"
-        required: false
 
 permissions:
   contents: write
-  pull-requests: write
   id-token: write
   pages: write
 
 jobs:
-  release:
-    uses: mcanouil/quarto-extension-actions/.github/workflows/release.yml@main
-    secrets: inherit
-    with:
-      version: "${{ github.event.inputs.version }}"
-      formats: "coeos-revealjs"
-      tinytex: false
-      quarto: "release"
+  deploy:
+    runs-on: ubuntu-latest
+
+    container: ghcr.io/mcanouil/quarto-codespaces:latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install dependencies
+        shell: bash
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget gnupg
+          wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+          sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
+
+          sudo apt-get install -y curl 
+          curl -sL https://deb.nodesource.com/setup_22.x | sudo -E bash - 
+          sudo apt-get update
+          sudo apt-get install -y nodejs
+
+          npm install -g decktape
+
+      - name: Render Quarto Project
+        shell: bash
+        run: |
+          quarto render
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "_site"
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
