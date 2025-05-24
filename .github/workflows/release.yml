@@ -57,3 +57,12 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Release extension on GitHub
+        env:
+          GH_TOKEN: ${{ secrets.github_token }} # gh cli
+        shell: bash
+        run: |
+          DATE=$(date +%Y-%m-%d)
+          VERSION=${DATE//-/.}
+          gh release create ${VERSION} --title "${DATE}" --generate-notes
