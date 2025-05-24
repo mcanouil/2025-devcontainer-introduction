@@ -3,20 +3,7 @@ title: "Introduction to Development Container"
 subtitle: "A Simple Way to Reproduce Your Environment"
 author: "Mickaël Canouil, *Ph.D.*"
 institute: "IT&M Stats"
-date: today
-format:
-  coeos-revealjs:
-    logo: https://raw.githubusercontent.com/mcanouil/hex-stickers/main/SVG/mc.svg
-    mermaid:
-      theme: dark
-    include-in-header:
-      - text: |
-          <style>
-            /*.reveal .slides {
-              border: 1px solid #fafafa;
-            }*/
-          </style>
-code-annotations: select
+date: 2025-06-04
 ---
 
 ## About Me
@@ -56,37 +43,51 @@ code-annotations: select
 
 :::
 
-# Introduction
+# Introduction to Dev Containers {.center-x}
+
+{{< iconify octicon:container-24 size=5x >}}
 
 ## What Are Dev Containers?
 
-- Dev Containers allow developers to work inside a predefined, isolated environment.
+- [{{< iconify octicon:container-24 >}} Dev Containers](https://containers.dev/) allow developers to work inside a predefined, isolated environment.
 
-- By leveraging [Docker](https://www.docker.com/), they provide a consistent and repeatable setup, removing "it works on my machine" issues.
+- By leveraging [{{< iconify fa6-brands:docker >}} Docker](https://www.docker.com/), they provide a consistent and repeatable setup, removing "*it works on my machine*" issues.
 
-- They integrate seamlessly with [Visual Studio Code](https://code.visualstudio.com/) (VS Code) and [GitHub Codespaces](https://github.com/features/codespaces), enabling developers to code, build, and debug inside the container while using their familiar tools.
+- They integrate seamlessly with [Visual Studio Code](https://code.visualstudio.com/) and [{{< iconify octicon:mark-github-24 >}} GitHub Codespaces](https://github.com/features/codespaces), enabling developers to code, build, and debug inside the container while using their familiar tools.
 
 ## Why Use Dev Containers?
 
 - Developers often face challenges in maintaining consistency across various systems.
 
-- Imagine working with a Python project that requires specific dependencies.  
+- Imagine working with a {{< iconify fa6-brands:python >}} Python project that requires specific dependencies.  
 One developer may have version conflicts, another may struggle with installation.
 
 - Dev Containers solve this by ensuring each team member uses the exact same environment, reducing debugging time and improving workflow efficiency.
 
-# Understanding Dev Containers
+# Understanding Dev Containers {.center-x}
 
-## How Dev Containers Work
+{{< iconify octicon:container-24 size=5x >}}
 
-Rather than installing dependencies manually, developers define their development environment inside a `.devcontainer` directory in their Git repository.  
+## How Dev Containers Work {#how-dev-containers-work-1}
+
+Rather than installing dependencies manually, developers define their development environment inside a `.devcontainer` directory in their {{< iconify fa6-brands:git-alt >}} Git repository.
+
 This configuration directory instructs Docker to create a workspace that includes all necessary tools and settings.
+
+```sh
+.devcontainer
+└── devcontainer.json
+```
+
+## How Dev Containers Work {#how-dev-containers-work-2}
 
 A typical workflow:
 
 1. Developer opens a project in Visual Studio Code.
 2. VS Code detects the presence of a `.devcontainer` configuration.
 3. The container is built and launched, ready for coding.
+
+![](assets/images/devcontainer-detection.png){fig-align="center" fig-alt='A notification from a Visual Studio Code indicates that the folder contains a Dev Container configuration file. The message suggests reopening the folder to develop in a container and provides a link to learn more. There are two buttons: "Reopen in Container" in green and "Don\'t Show Again..." in gray. The source of the notification is the "Dev Containers" extension.'}
 
 ## Prerequisites
 
@@ -96,14 +97,16 @@ Before diving into Dev Containers, ensure:
 - **Docker** is running ([Docker Desktop](https://www.docker.com/products/docker-desktop/) or another compatible solution).
 - [**Dev Containers Extension**](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) is added to VS Code.
 
-# Setting Up Dev Containers
+# Setting Up`<br>`{=html}Dev Containers {.center-x}
+
+{{< iconify octicon:container-24 size=5x >}}
 
 ## Creating a Dev Container
 
 Let's get started! To create a Dev Container, follow these steps:
 
 1. Open your project in VS Code.
-2. Use the **Command Palette** and search for "Dev Containers: Add Dev Container Configuration Files..."
+2. Use the **Command Palette** and search for "*Dev Containers: Add Dev Container Configuration Files...*"
 3. Choose an appropriate template for your stack (Node.js, Python, Rust, etc.).
 4. Your project now contains a `.devcontainer/devcontainer.json` file.
 
@@ -161,13 +164,15 @@ A basic setup may be sufficient, but advanced users often refine their environme
 1. **Features**: This section allows you to add [pre-defined features](https://containers.dev/features) to your container, such as **Docker-in-Docker** or the **GitHub CLI**.
 2. **Settings**: Custom Visual Studio Code settings can be defined here, such as R options.
 
-# Building and Running the Dev Container
+# Building and Running`<br>`{=html}the Dev Container {.center-x}
+
+{{< iconify octicon:container-24 size=5x >}}
 
 ## Visual Studio Code
 
 Once the configuration is set, building and running the container is straightforward:
 
-1. Open the Command Palette and select "Dev Containers: Reopen in Container".
+1. Open the **Command Palette** and select "*Dev Containers: Reopen in Container*".
 2. VS Code will build the container based on the configuration.
 3. Once built, the container will launch, and you can start coding.
 
@@ -176,10 +181,9 @@ Once the configuration is set, building and running the container is straightfor
 For those using GitHub Codespaces, the process is similar:
 
 1. Open your repository on GitHub.
-2. Click on the green "Code" button and select "Open with Codespaces".
-3. Choose "New codespace" to create a new Codespace.
-4. GitHub will automatically build the Dev Container based on the `.devcontainer` configuration.
-5. Once the Codespace is ready, you can start coding directly in the browser.
+2. Click on the green "*Code*" button and select "*Open with Codespaces*".
+3. GitHub will automatically build the Dev Container based on the configuration.
+4. Once the Codespace is ready, you can start coding directly in the browser.
 
 ## The Dev Container CLI
 
@@ -196,13 +200,17 @@ With simple commands, developers can build, start, and interact with their conta
 
    ```sh
    devcontainer build --workspace-folder .
-   devcontainer up --id-label my-container
-   devcontainer exec my-container ls
+   devcontainer up --id-label name=my-container --workspace-folder .
+   devcontainer exec --id-label name=my-container pwd
    ```
 
-# Live Demonstration
+# Live Demonstration {.center-x}
 
-# Conclusion
+[{{< iconify octicon:play-24 size=5x >}}](vscode:://file/Users/mcanouil/Projects/perso/devcontainer-introduction)
+
+# Conclusion {.center-x}
+
+{{< iconify octicon:issue-closed-24 size=5x >}}
 
 ## Use Cases and Benefits
 
@@ -211,24 +219,32 @@ Instead of reinstalling dependencies, they simply open their project inside a pr
 
 Other advantages:
 
-- **Remote Development:** Work on code from any system.
-- **Team Collaboration:** Share a unified development environment.
-- **Sandboxing:** Experiment with dependencies without risking the host machine.
-- **CI/CD Integration:** Ensure build reproducibility.
+- {{< iconify octicon:cloud-24 >}} **Remote Development:** Work on code from any system.
+- {{< iconify octicon:people-24 >}} **Team Collaboration:** Share a unified development environment.
+- {{< iconify octicon:beaker-24 >}} **Sandboxing:** Experiment with dependencies without risking the host machine.
+- {{< iconify octicon:terminal-24 >}} **CI/CD Integration:** Ensure build reproducibility.
 
 ## Summary
 
 Dev Containers provide a structured, reliable development environment that simplifies onboarding and improves collaboration.  
 Whether working solo or in a team, adopting containerised development ensures that everyone works inside the same, pre-configured setup.
 
-:::: {.center-x style="margin: 2.5em;"}
+:::: {layout="[0.10, 0.80, 0.10]" style="text-align: center;"}
+{{< iconify octicon:sparkles-fill-24 size=5x >}}
+
 With Dev Containers, development becomes more predictable and efficient.  
 Embrace the change today!
+
+{{< iconify octicon:sparkles-fill-24 size=5x flip="horizontal" >}}
 :::
 
 ## Further Resources
 
+- [This slide deck as PDF](https://m.canouil.dev/devcontainer-introduction/devcontainer-introduction.pdf)
 - [Dev Containers Overview](https://code.visualstudio.com/docs/devcontainers/containers)
 - [Creating a Dev Container](https://code.visualstudio.com/docs/devcontainers/create-dev-container)
+- [Dev Containers Specification](https://containers.dev/)
+- [Dev Containers Features](https://containers.dev/features)
+- [GitHub Codespaces](https://docs.github.com/en/codespaces/about-codespaces/what-are-codespaces)
 
 {{< include _extensions/mcanouil/coeos/_about.qmd >}}
