@@ -4,6 +4,14 @@ subtitle: "A Simple Way to Reproduce Your Environment"
 author: "Mickaël Canouil, *Ph.D.*"
 institute: "IT&M Stats"
 date: 2025-06-04
+format:
+  coeos-revealjs:
+    logo: https://raw.githubusercontent.com/mcanouil/hex-stickers/main/SVG/mc.svg
+    include-after-body:
+      - text: |
+          <style>
+            // .reveal .slides { border: 1px solid #fafafa; }
+          </style>
 ---
 
 ## About Me
