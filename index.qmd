@@ -3,13 +3,39 @@ title: "Introduction to Development Container"
 subtitle: "A Simple Way to Reproduce Your Environment"
 author: "Mickaël Canouil, *Ph.D.*"
 institute: "IT&M Stats"
-date: 2025-06-04
+date: today
 format:
   coeos-revealjs:
-    logo: https://raw.githubusercontent.com/mcanouil/hex-stickers/main/SVG/mc.svg
+    logo: ""
     include-after-body:
       - text: |
           <style>
+            iconify-icon {
+              display: inline-block;
+              width: 1em;
+              height: 1em;
+            }
+
+            /* Hide original markers if .fragment only */
+            .reveal ul li:has(.fragment)::marker,
+            .reveal ol li:has(.fragment)::marker {
+              color: transparent;
+              transition: color 0.3s ease;
+            }
+
+            /* Show markers when list item or its fragments are visible */
+            .reveal li.visible::marker,
+            .reveal li.fragment.visible::marker,
+            .reveal li:has(.fragment.visible)::marker {
+              color: inherit;
+            }
+
+            .center-y {
+              display: flex;
+              align-items: center;
+              min-height: 75vh;
+            }
+
             // .reveal .slides { border: 1px solid #fafafa; }
           </style>
 ---
@@ -17,24 +43,20 @@ format:
 ## About Me
 
 :::: {style="font-size: 50%;"}
-:::: {layout="[-0.03, 0.15, -0.045, 0.375, 0.40]" layout-valign="center"}
-![](https://github.com/mcanouil.png){.picture fig-alt="Portrait of Mickaël Canouil"}
+:::: {layout="[0.20, -0.025, 0.375, 0.40]" layout-valign="center"}
+![](https://github.com/mcanouil.png){.picture}
 
 :::: {}
-
 - [{{< iconify fa6-solid:house-chimney-user >}} mickael.canouil.fr](https://mickael.canouil.fr/){style="text-decoration: none;"}
 - [{{< iconify fa6-solid:envelope >}} pro@mickael.canouil.dev](mailto:pro@mickael.canouil.dev){style="text-decoration: none;"}
 - [{{< iconify fa6-brands:github >}} \@mcanouil](https://github.com/mcanouil/){style="text-decoration: none;"}
 - [{{< iconify fa6-brands:linkedin >}} mickaelcanouil](https://www.linkedin.com/in/mickaelcanouil/){style="text-decoration: none;"}
-
 :::
 
 :::: {}
-
 - [{{< iconify fa6-brands:bluesky >}} \@mickael.canouil.fr](https://bsky.app/profile/mickael.canouil.fr/){style="text-decoration: none;"}
 - [{{< iconify fa6-brands:mastodon >}} \@MickaelCanouil\@fosstodon.org](https://fosstodon.org/@MickaelCanouil/){style="text-decoration: none;"}
 - [{{< iconify fa6-brands:x-twitter >}} \@MickaelCanouil](https://x.com/MickaelCanouil/){style="text-decoration: none;"}
-
 :::
 
 :::
@@ -42,11 +64,11 @@ format:
 
 :::: {style="font-size: 55%; font-style: italic;"}
 
-- I am Mickaël CANOUIL, I hold a Ph.D. in Biostatistics, with over a decade of academic experience in the genetics of type 2 diabetes and obesity.  
-- My research has contributed to understanding the genetic and molecular mechanisms underlying metabolic diseases, with publications in leading journals.  
-- Currently, I work as a consultant in biostatistics, applying my expertise to diverse projects in multi-omics and data analysis.  
-- I am also deeply involved in the Quarto ecosystem, developing extensions and tools that enhance reproducibility and scientific communication.  
-- My contributions, including [Quarto Wizard](https://github.com/mcanouil/quarto-wizard) and [various Quarto extensions](https://m.canouil.dev/quarto-extensions/authors/mcanouil.html), aim to streamline workflows for researchers and data scientists.  
+- I am Mickaël CANOUIL, I hold a Ph.D. in Biostatistics, with over a decade of academic experience in the genetics of type 2 diabetes and obesity.
+- My research has contributed to understanding the genetic and molecular mechanisms underlying metabolic diseases, with publications in leading journals.
+- Currently, I work as a consultant in biostatistics, applying my expertise to diverse projects in multi-omics and data analysis.
+- I am also deeply involved in the Quarto ecosystem, developing extensions and tools that enhance reproducibility and scientific communication.
+- My contributions, including [Quarto Wizard](https://github.com/mcanouil/quarto-wizard) and [various Quarto extensions](https://m.canouil.dev/quarto-extensions/authors/mcanouil.html), aim to streamline workflows for researchers and data scientists.
 - You can explore my work on [GitHub](https://github.com/mcanouil), my [projects](https://mickael.canouil.fr/projects), and my [publications](https://mickael.canouil.fr/publications).
 
 :::
@@ -57,20 +79,28 @@ format:
 
 ## What Are Dev Containers?
 
+:::: {.incremental}
+
 - [{{< iconify octicon:container-24 >}} Dev Containers](https://containers.dev/) allow developers to work inside a predefined, isolated environment.
 
 - By leveraging [{{< iconify fa6-brands:docker >}} Docker](https://www.docker.com/), they provide a consistent and repeatable setup, removing "*it works on my machine*" issues.
 
 - They integrate seamlessly with [Visual Studio Code](https://code.visualstudio.com/) and [{{< iconify octicon:mark-github-24 >}} GitHub Codespaces](https://github.com/features/codespaces), enabling developers to code, build, and debug inside the container while using their familiar tools.
 
+:::
+
 ## Why Use Dev Containers?
+
+:::: {.incremental}
 
 - Developers often face challenges in maintaining consistency across various systems.
 
-- Imagine working with a {{< iconify fa6-brands:python >}} Python project that requires specific dependencies.  
+- Imagine working with a {{< iconify fa6-brands:python >}} Python project that requires specific dependencies.
 One developer may have version conflicts, another may struggle with installation.
 
 - Dev Containers solve this by ensuring each team member uses the exact same environment, reducing debugging time and improving workflow efficiency.
+
+:::
 
 # Understanding Dev Containers {.center-x}
 
@@ -78,32 +108,49 @@ One developer may have version conflicts, another may struggle with installation
 
 ## How Dev Containers Work {#how-dev-containers-work-1}
 
+:::: {.fragment fragment-index="1"}
+
 Rather than installing dependencies manually, developers define their development environment inside a `.devcontainer` directory in their {{< iconify fa6-brands:git-alt >}} Git repository.
 
-This configuration directory instructs Docker to create a workspace that includes all necessary tools and settings.
+:::
+
+:::: {.fragment fragment-index="2"}
 
 ```sh
 .devcontainer
 └── devcontainer.json
 ```
 
+:::
+
+:::: {.fragment fragment-index="3"}
+
+This configuration directory instructs Docker to create a workspace that includes all necessary tools and settings.
+
+:::
+
 ## How Dev Containers Work {#how-dev-containers-work-2}
 
-A typical workflow:
+[A typical workflow:]{.fragment fragment-index="1"}
 
-1. Developer opens a project in Visual Studio Code.
-2. VS Code detects the presence of a `.devcontainer` configuration.
-3. The container is built and launched, ready for coding.
+1. [Developer opens a project in Visual Studio Code.]{.fragment fragment-index="2"}
+2. [VS Code detects the presence of a `.devcontainer` configuration.]{.fragment fragment-index="3"}
+3. [The container is built and launched, ready for coding.]{.fragment fragment-index="4"}
+
+:::: {.fragment fragment-index="5"}
 
 ![](assets/images/devcontainer-detection.png){fig-align="center" fig-alt='A notification from a Visual Studio Code indicates that the folder contains a Dev Container configuration file. The message suggests reopening the folder to develop in a container and provides a link to learn more. There are two buttons: "Reopen in Container" in green and "Don\'t Show Again..." in gray. The source of the notification is the "Dev Containers" extension.'}
 
+:::
+
 ## Prerequisites
 
-Before diving into Dev Containers, ensure:
+[Before diving into Dev Containers, ensure:]{.fragment fragment-index="1"}
 
-- **Visual Studio Code** is installed and up to date.
-- **Docker** is running ([Docker Desktop](https://www.docker.com/products/docker-desktop/) or another compatible solution).
-- [**Dev Containers Extension**](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) is added to VS Code.
+- [**Visual Studio Code** is installed and up to date.]{.fragment fragment-index="2"}
+- [**Docker** is running ([Docker Desktop](https://www.docker.com/products/docker-desktop/) or another compatible solution).]{.fragment fragment-index="3"}
+- [[**Dev Containers Extension**](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) is added to VS Code.]{.fragment fragment-index="4"}
+
 
 # Setting Up`<br>`{=html}Dev Containers {.center-x}
 
@@ -111,20 +158,20 @@ Before diving into Dev Containers, ensure:
 
 ## Creating a Dev Container
 
-Let's get started! To create a Dev Container, follow these steps:
+[Let's get started! To create a Dev Container, follow these steps:]{.fragment fragment-index="1"}
 
-1. Open your project in VS Code.
-2. Use the **Command Palette** and search for "*Dev Containers: Add Dev Container Configuration Files...*"
-3. Choose an appropriate template for your stack (Node.js, Python, Rust, etc.).
-4. Your project now contains a `.devcontainer/devcontainer.json` file.
+1. [Open your project in VS Code.]{.fragment fragment-index="2"}
+2. [Use the **Command Palette** and search for "*Dev Containers: Add Dev Container Configuration Files...*".]{.fragment fragment-index="3"}
+3. [Choose an appropriate template for your stack (Node.js, Python, Rust, etc.).]{.fragment fragment-index="4"}
+4. [Your project now contains a `.devcontainer/devcontainer.json` file.]{.fragment fragment-index="5"}
 
-Editing this file allows further customisation.
+[Editing this file allows further customisation.]{.fragment fragment-index="6"}
 
 ## Example `devcontainer.json`
 
 Consider a simple [Quarto CLI](https://quarto.org/) setup:
 
-```{.json code-line-numbers="1-13|3|8|9|1-13"}
+```{.json code-line-numbers="|3|8|9|"}
 {
   "name": "My Dev Container",
   "image": "ghcr.io/mcanouil/quarto-codespaces:latest", // <1>
@@ -149,7 +196,7 @@ Consider a simple [Quarto CLI](https://quarto.org/) setup:
 
 A basic setup may be sufficient, but advanced users often refine their environment:
 
-```{.json code-line-numbers="1-17|5-8|10-12|1-17"}
+```{.json code-line-numbers="|5-8|10-12|"}
 {
   "name": "My Dev Container",
   "image": "ghcr.io/mcanouil/quarto-codespaces:latest",
@@ -178,31 +225,42 @@ A basic setup may be sufficient, but advanced users often refine their environme
 
 ## Visual Studio Code
 
-Once the configuration is set, building and running the container is straightforward:
+[Once the configuration is set, building and running the container is straightforward:]{.fragment fragment-index="1"}
 
-1. Open the **Command Palette** and select "*Dev Containers: Reopen in Container*".
-2. VS Code will build the container based on the configuration.
-3. Once built, the container will launch, and you can start coding.
+1. [Open the **Command Palette** and select "*Dev Containers: Reopen in Container*".]{.fragment fragment-index="2"}
+2. [VS Code will build the container based on the configuration.]{.fragment fragment-index="3"}
+3. [Once built, the container will launch, and you can start coding.]{.fragment fragment-index="4"}
 
 ## GitHub Codespaces
 
-For those using GitHub Codespaces, the process is similar:
+[For those using GitHub Codespaces, the process is similar:]{.fragment fragment-index="1"}
 
-1. Open your repository on GitHub.
-2. Click on the green "*Code*" button and select "*Open with Codespaces*".
-3. GitHub will automatically build the Dev Container based on the configuration.
-4. Once the Codespace is ready, you can start coding directly in the browser.
+1. [Open your repository on GitHub.]{.fragment fragment-index="2"}
+2. [Click on the green "*Code*" button and select "*Open with Codespaces*".]{.fragment fragment-index="3"}
+3. [GitHub will automatically build the Dev Container based on the configuration.]{.fragment fragment-index="4"}
+4. [Once the Codespace is ready, you can start coding directly in the browser.]{.fragment fragment-index="5"}
 
 ## The Dev Container CLI
 
-For advanced users, the [Dev Container CLI](https://code.visualstudio.com/docs/devcontainers/devcontainer-cli) provides additional flexibility.  
+:::: {.fragment fragment-index="1"}
+
+For advanced users, the [Dev Container CLI](https://code.visualstudio.com/docs/devcontainers/devcontainer-cli) provides additional flexibility.
 With simple commands, developers can build, start, and interact with their containers from the terminal.
+
+:::
+
+
+:::: {.fragment fragment-index="2"}
 
 1. Install the CLI globally using `npm`:
 
    ```sh
    npm install -g @devcontainers/cli
    ```
+
+:::
+
+:::: {.fragment fragment-index="3"}
 
 2. Use the CLI to build and run your Dev Container:
 
@@ -212,9 +270,11 @@ With simple commands, developers can build, start, and interact with their conta
    devcontainer exec --id-label name=my-container pwd
    ```
 
+:::
+
 # Live Demonstration {.center-x}
 
-[{{< iconify octicon:play-24 size=5x >}}](vscode:://file/Users/mcanouil/Projects/perso/devcontainer-introduction)
+[{{< iconify octicon:play-24 size=5x >}}](vscode:://file/Users/mcanouil/Projects/pro/training/devcontainer-introduction/)
 
 # Conclusion {.center-x}
 
@@ -222,25 +282,37 @@ With simple commands, developers can build, start, and interact with their conta
 
 ## Use Cases and Benefits
 
-Picture a developer moving between machines or working remotely.  
+:::: {.fragment fragment-index="1"}
+
+Picture a developer moving between machines or working remotely.
 Instead of reinstalling dependencies, they simply open their project inside a pre-configured Dev Container.
+
+:::
+
+:::: {.fragment fragment-index="2"}
 
 Other advantages:
 
-- {{< iconify octicon:cloud-24 >}} **Remote Development:** Work on code from any system.
-- {{< iconify octicon:people-24 >}} **Team Collaboration:** Share a unified development environment.
-- {{< iconify octicon:beaker-24 >}} **Sandboxing:** Experiment with dependencies without risking the host machine.
-- {{< iconify octicon:terminal-24 >}} **CI/CD Integration:** Ensure build reproducibility.
+:::
+
+- [{{< iconify octicon:cloud-24 >}} **Remote Development:** Work on code from any system.]{.fragment fragment-index="3"}
+- [{{< iconify octicon:people-24 >}} **Team Collaboration:** Share a unified development environment.]{.fragment fragment-index="4"}
+- [{{< iconify octicon:beaker-24 >}} **Sandboxing:** Experiment with dependencies without risking the host machine.]{.fragment fragment-index="5"}
+- [{{< iconify octicon:terminal-24 >}} **CI/CD Integration:** Ensure build reproducibility.]{.fragment fragment-index="6"}
 
 ## Summary
+
+:::: {.fragment fragment-index="1"}
 
 Dev Containers provide a structured, reliable development environment that simplifies onboarding and improves collaboration.  
 Whether working solo or in a team, adopting containerised development ensures that everyone works inside the same, pre-configured setup.
 
-:::: {layout="[0.10, 0.80, 0.10]" style="text-align: center;"}
+:::
+
+:::: {layout="[0.10, 0.80, 0.10]" style="text-align: center;" .fragment fragment-index="2"}
 {{< iconify octicon:sparkles-fill-24 size=5x >}}
 
-With Dev Containers, development becomes more predictable and efficient.  
+With Dev Containers, development becomes more predictable and efficient.
 Embrace the change today!
 
 {{< iconify octicon:sparkles-fill-24 size=5x flip="horizontal" >}}
@@ -248,11 +320,20 @@ Embrace the change today!
 
 ## Further Resources
 
+:::: {layout="[0.44, -0.02, 0.44]" layout-valign="center" .center-y}
+
+:::: {}
 - [This slide deck as PDF](https://m.canouil.dev/devcontainer-introduction/devcontainer-introduction.pdf)
 - [Dev Containers Overview](https://code.visualstudio.com/docs/devcontainers/containers)
 - [Creating a Dev Container](https://code.visualstudio.com/docs/devcontainers/create-dev-container)
+:::
+
+:::: {}
 - [Dev Containers Specification](https://containers.dev/)
 - [Dev Containers Features](https://containers.dev/features)
 - [GitHub Codespaces](https://docs.github.com/en/codespaces/about-codespaces/what-are-codespaces)
+:::
+
+:::
 
 {{< include _extensions/mcanouil/coeos/_about.qmd >}}
