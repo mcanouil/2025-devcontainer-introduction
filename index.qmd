@@ -1,8 +1,14 @@
 ---
 title: "Introduction to Development Container"
 subtitle: "A Simple Way to Reproduce Your Environment"
-author: "Mickaël Canouil, *Ph.D.*"
-institute: "IT&M Stats"
+author:
+  - name: "Mickaël CANOUIL, _Ph.D._"
+    degree: "Ph.D."
+    orcid: "0000-0002-3396-4549"
+    url: "https://mickael.canouil.fr"
+    affiliations:
+      - name: mickael.canouil.fr
+        url: "https://mickael.canouil.fr"
 date: today
 format:
   coeos-revealjs:
