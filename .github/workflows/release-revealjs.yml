@@ -18,8 +18,9 @@ permissions:
 jobs:
   release:
     uses: mcanouil/quarto-workflows/.github/workflows/release-revealjs.yml@main
-    secrets: inherit
+    secrets:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      APP_KEY: ${{ secrets.APP_KEY }}
     with:
       quarto: "${{ github.event.inputs.quarto }}"
       gh-app-id: "${{ vars.APP_ID }}"
-      gh-app-key: "${{ secrets.APP_KEY }}"
