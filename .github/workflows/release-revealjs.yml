@@ -21,3 +21,5 @@ jobs:
     secrets: inherit
     with:
       quarto: "${{ github.event.inputs.quarto }}"
+      gh-app-id: "${{ vars.APP_ID }}"
+      gh-app-key: "${{ secrets.APP_KEY }}"
