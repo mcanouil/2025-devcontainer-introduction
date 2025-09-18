@@ -7,7 +7,7 @@ authors:
     given-names: "Mickaël"
     orcid: "https://orcid.org/0000-0002-3396-4549"
 date-released: "2025-09-18"
-version: 2025.09.18
+version: 2025.09.18-2
 url: "http://m.canouil.dev/devcontainer-introduction/"
 repository-code: "https://github.com/mcanouil/devcontainer-introduction"
 license: "CC-BY-SA-4.0"
