@@ -19,7 +19,7 @@ jobs:
   release:
     uses: mcanouil/quarto-workflows/.github/workflows/release-revealjs.yml@main
     secrets:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       APP_KEY: ${{ secrets.APP_KEY }}
     with:
       quarto: "${{ github.event.inputs.quarto }}"
