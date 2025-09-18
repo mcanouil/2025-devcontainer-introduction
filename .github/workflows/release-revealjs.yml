@@ -16,8 +16,36 @@ permissions:
   pages: write
 
 jobs:
+  github-app:
+    runs-on: ubuntu-latest
+
+    outputs:
+      user-id: ${{ steps.get-user-id.outputs.user-id }}
+      app-slug: ${{ steps.app-token.outputs.app-slug }}
+      gh-token: ${{ steps.app-token.outputs.token }}
+
+    steps:
+      - name: Create GitHub App token
+        uses: actions/create-github-app-token@v2
+        id: app-token
+        with:
+          app-id: ${{ vars.APP_ID }}
+          private-key: ${{ secrets.APP_KEY }}
+
+      - name: Get GitHub App User ID
+        id: get-user-id
+        shell: bash
+        run: echo "user-id=$(gh api "/users/${{ steps.app-token.outputs.app-slug }}[bot]" --jq .id)" >> "$GITHUB_OUTPUT"
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+
   release:
     uses: mcanouil/quarto-workflows/.github/workflows/release-revealjs.yml@main
     secrets: inherit
+    needs: 
+      - github-app
     with:
       quarto: "${{ github.event.inputs.quarto }}"
+      gh-token: "${{ needs.github-app.outputs.gh-token }}"
+      git-user-name: "${{ needs.github-app.outputs.app-slug }}[bot]"
+      git-user-email: "${{ needs.github-app.outputs.user-id }}+${{ needs.github-app.outputs.app-slug }}[bot]@users.noreply.github.com"
