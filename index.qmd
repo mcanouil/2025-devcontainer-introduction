@@ -16,26 +16,6 @@ format:
     include-after-body:
       - text: |
           <style>
-            iconify-icon {
-              display: inline-block;
-              width: 1em;
-              height: 1em;
-            }
-
-            /* Hide original markers if .fragment only */
-            .reveal ul li:has(.fragment)::marker,
-            .reveal ol li:has(.fragment)::marker {
-              color: transparent;
-              transition: color 0.3s ease;
-            }
-
-            /* Show markers when list item or its fragments are visible */
-            .reveal li.visible::marker,
-            .reveal li.fragment.visible::marker,
-            .reveal li:has(.fragment.visible)::marker {
-              color: inherit;
-            }
-
             .center-y {
               display: flex;
               align-items: center;
