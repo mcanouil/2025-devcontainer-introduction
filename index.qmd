@@ -9,7 +9,7 @@ author:
     affiliations:
       - name: mickael.canouil.fr
         url: "https://mickael.canouil.fr"
-date: today
+date: 2025-10-08
 format:
   coeos-revealjs:
     logo: ""
