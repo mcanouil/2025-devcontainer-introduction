@@ -2,6 +2,7 @@
 title: "Introduction aux Conteneurs de Développement"
 subtitle: "Une manière simple de reproduire votre environnement"
 lang: fr-FR
+date-format: "dddd D MMMM, YYYY"
 author:
   - name: "Mickaël CANOUIL, _Ph.D._"
     degree: "Ph.D."
@@ -25,6 +26,18 @@ format:
 
             // .reveal .slides { border: 1px solid #fafafa; }
           </style>
+          <script type="text/javascript">
+            document.addEventListener('DOMContentLoaded', () => {
+              const dateElement = document.querySelector('#title-slide > p.date');
+              if (dateElement) {
+                const text = dateElement.textContent;
+                dateElement.textContent = text
+                  .split(' ')
+                  .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                  .join(' ');
+              }
+            });
+          </script>
 ---
 
 ## À propos de moi
