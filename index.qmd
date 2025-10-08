@@ -1,6 +1,7 @@
 ---
 title: "Introduction to Development Container"
 subtitle: "A Simple Way to Reproduce Your Environment"
+lang: en-UK
 author:
   - name: "Mickaël CANOUIL, _Ph.D._"
     degree: "Ph.D."
@@ -296,12 +297,14 @@ Whether working solo or in a team, adopting containerised development ensures th
 :::
 
 :::: {layout="[0.10, 0.80, 0.10]" style="text-align: center;" .fragment fragment-index="2"}
+
 {{< iconify octicon:sparkles-fill-24 size=5x >}}
 
 With Dev Containers, development becomes more predictable and efficient.
 Embrace the change today!
 
 {{< iconify octicon:sparkles-fill-24 size=5x flip="horizontal" >}}
+
 :::
 
 ## Further Resources

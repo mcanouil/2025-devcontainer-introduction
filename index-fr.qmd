@@ -1,0 +1,335 @@
+---
+title: "Introduction aux Conteneurs de Développement"
+subtitle: "Une manière simple de reproduire votre environnement"
+lang: fr-FR
+author:
+  - name: "Mickaël CANOUIL, _Ph.D._"
+    degree: "Ph.D."
+    orcid: "0000-0002-3396-4549"
+    url: "https://mickael.canouil.fr"
+    affiliations:
+      - name: mickael.canouil.fr
+        url: "https://mickael.canouil.fr"
+date: 2025-10-08
+format:
+  coeos-revealjs:
+    logo: ""
+    include-after-body:
+      - text: |
+          <style>
+            .center-y {
+              display: flex;
+              align-items: center;
+              min-height: 75vh;
+            }
+
+            // .reveal .slides { border: 1px solid #fafafa; }
+          </style>
+---
+
+## À propos de moi
+
+:::: {style="font-size: 50%;"}
+:::: {layout="[0.20, -0.025, 0.375, 0.40]" layout-valign="center"}
+![](https://github.com/mcanouil.png){.picture}
+
+:::: {}
+- [{{< iconify fa6-solid:house-chimney-user >}} mickael.canouil.fr](https://mickael.canouil.fr/){style="text-decoration: none;"}
+- [{{< iconify fa6-solid:envelope >}} pro@mickael.canouil.dev](mailto:pro@mickael.canouil.dev){style="text-decoration: none;"}
+- [{{< iconify fa6-brands:github >}} \@mcanouil](https://github.com/mcanouil/){style="text-decoration: none;"}
+- [{{< iconify fa6-brands:linkedin >}} mickaelcanouil](https://www.linkedin.com/in/mickaelcanouil/){style="text-decoration: none;"}
+:::
+
+:::: {}
+- [{{< iconify fa6-brands:bluesky >}} \@mickael.canouil.fr](https://bsky.app/profile/mickael.canouil.fr/){style="text-decoration: none;"}
+- [{{< iconify fa6-brands:mastodon >}} \@MickaelCanouil\@fosstodon.org](https://fosstodon.org/@MickaelCanouil/){style="text-decoration: none;"}
+- [{{< iconify fa6-brands:x-twitter >}} \@MickaelCanouil](https://x.com/MickaelCanouil/){style="text-decoration: none;"}
+:::
+
+:::
+:::
+
+:::: {style="font-size: 50%; font-style: italic;"}
+
+- Je suis Mickaël CANOUIL, je suis titulaire d'un doctorat en biostatistique, avec plus d'une décennie d'expérience académique dans la génétique du diabète de type 2 et de l'obésité.
+- Mes recherches ont contribué à la compréhension des mécanismes génétiques et moléculaires sous-jacents aux maladies métaboliques, avec des publications dans des revues de premier plan.
+- Actuellement, je travaille en tant que consultant en biostatistique, appliquant mon expertise à divers projets en multi-omique et analyse de données.
+- Je suis également profondément impliqué dans l'écosystème Quarto, développant des extensions et des outils qui améliorent la reproductibilité et la communication scientifique.
+- Mes contributions, notamment [Quarto Wizard](https://github.com/mcanouil/quarto-wizard) et [diverses extensions Quarto](https://m.canouil.dev/quarto-extensions/authors/mcanouil.html), visent à rationaliser les flux de travail pour les chercheurs et les data scientists.
+- Vous pouvez explorer mon travail sur [GitHub](https://github.com/mcanouil), mes [projets](https://mickael.canouil.fr/projects) et mes [publications](https://mickael.canouil.fr/publications).
+
+:::
+
+# Introduction aux conteneurs de développement {.center-x}
+
+{{< iconify octicon:container-24 size=5x >}}
+
+## Que sont les conteneurs de développement`&nbsp;`{=html}?
+
+:::: {.incremental style="font-size: 95%;"}
+
+- Les [{{< iconify octicon:container-24 >}} conteneurs de développement](https://containers.dev/) permettent aux développeurs de travailler à l'intérieur d'un environnement prédéfini et isolé.
+
+- En tirant parti de [{{< iconify fa6-brands:docker >}} Docker](https://www.docker.com/), ils fournissent une configuration cohérente et reproductible, éliminant les problèmes du type « ça fonctionne sur ma machine ».
+
+- Ils s'intègrent parfaitement avec [Visual Studio Code](https://code.visualstudio.com/) et [{{< iconify octicon:mark-github-24 >}} GitHub Codespaces](https://github.com/features/codespaces), permettant aux développeurs de coder, compiler et déboguer à l'intérieur du conteneur tout en utilisant leurs outils familiers.
+
+:::
+
+## Pourquoi utiliser les conteneurs de développement`&nbsp;`{=html}?
+
+:::: {.incremental}
+
+- Les développeurs sont souvent confrontés à des défis pour maintenir la cohérence entre différents systèmes.
+
+- Imaginez travailler sur un projet {{< iconify fa6-brands:python >}} Python qui nécessite des dépendances spécifiques.
+Un développeur peut avoir des conflits de version, un autre peut avoir des difficultés avec l'installation.
+
+- Les conteneurs de développement résolvent ce problème en garantissant que chaque membre de l'équipe utilise exactement le même environnement, réduisant le temps de débogage et améliorant l'efficacité du flux de travail.
+
+:::
+
+# Comprendre les conteneurs de développement {.center-x}
+
+{{< iconify octicon:container-24 size=5x >}}
+
+## Comment fonctionnent les conteneurs de développement {#how-dev-containers-work-1}
+
+:::: {.fragment fragment-index="1"}
+
+Plutôt que d'installer manuellement les dépendances, les développeurs définissent leur environnement de développement à l'intérieur d'un répertoire `.devcontainer` dans leur dépôt {{< iconify fa6-brands:git-alt >}} Git.
+
+:::
+
+:::: {.fragment fragment-index="2"}
+
+```sh
+.devcontainer
+└── devcontainer.json
+```
+
+:::
+
+:::: {.fragment fragment-index="3"}
+
+Ce répertoire de configuration indique à Docker de créer un espace de travail qui inclut tous les outils et paramètres nécessaires.
+
+:::
+
+## Comment fonctionnent les conteneurs de développement {#how-dev-containers-work-2}
+
+:::: {style="font-size: 95%;"}
+
+[Un flux de travail typique`&nbsp;`{=html}:]{.fragment fragment-index="1"}
+
+1. [Le développeur ouvre un projet dans Visual Studio Code.]{.fragment fragment-index="2"}
+2. [VS Code détecte la présence d'une configuration `.devcontainer`.]{.fragment fragment-index="3"}
+3. [Le conteneur est construit et lancé, prêt pour le développement.]{.fragment fragment-index="4"}
+
+:::
+
+:::: {.fragment fragment-index="5"}
+
+![](assets/images/devcontainer-detection.png){fig-align="center" fig-alt='Une notification de Visual Studio Code indique que le dossier contient un fichier de configuration de conteneur de développement. Le message suggère de rouvrir le dossier pour développer dans un conteneur et fournit un lien pour en savoir plus. Il y a deux boutons`&nbsp;`{=html}: "Ouvrir dans le conteneur" en vert et "Ne plus afficher..." en gris. La source de la notification est l\'extension "Dev Containers".'}
+
+:::
+
+## Prérequis
+
+[Avant de vous lancer dans les conteneurs de développement, assurez-vous que`&nbsp;`{=html}:]{.fragment fragment-index="1"}
+
+- [**Visual Studio Code** est installé et à jour.]{.fragment fragment-index="2"}
+- [**Docker** est en cours d'exécution ([Docker Desktop](https://www.docker.com/products/docker-desktop/) ou une autre solution compatible).]{.fragment fragment-index="3"}
+- [L'[**extension Dev Containers**](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) est ajoutée à VS Code.]{.fragment fragment-index="4"}
+
+# Configuration des`<br>`{=html}conteneurs de développement {.center-x}
+
+{{< iconify octicon:container-24 size=5x >}}
+
+## Créer un conteneur de développement {style="font-size: 95%;"}
+
+[Commençons`&nbsp;`{=html}! Pour créer un conteneur de développement, suivez ces étapes`&nbsp;`{=html}:]{.fragment fragment-index="1"}
+
+1. [Ouvrez votre projet dans VS Code.]{.fragment fragment-index="2"}
+2. [Utilisez la **palette de commandes** et recherchez « *Dev Containers: Add Dev Container Configuration Files...* ».]{.fragment fragment-index="3"}
+3. [Choisissez un modèle approprié pour votre pile technologique (Node.js, Python, Rust, etc.).]{.fragment fragment-index="4"}
+4. [Votre projet contient maintenant un fichier `.devcontainer/devcontainer.json`.]{.fragment fragment-index="5"}
+
+[La modification de ce fichier permet une personnalisation plus poussée.]{.fragment fragment-index="6"}
+
+## Exemple de `devcontainer.json`
+
+Considérons une configuration simple de [Quarto CLI](https://quarto.org/)`&nbsp;`{=html}:
+
+```{.json code-line-numbers="|3|8|9|"}
+{
+  "name": "My Dev Container",
+  "image": "ghcr.io/mcanouil/quarto-codespaces:latest", // <1>
+  "remoteUser": "vscode",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "quarto.quarto", // <2>
+        "mcanouil.quarto-wizard" // <3>
+      ]
+    }
+  }
+}
+```
+
+1. L'image Docker est spécifiée dans le champ `image`.
+   Elle est construite à l'aide d'une spécification de conteneur de développement que vous pouvez trouver dans [`.github/.devcontainer`](https://github.com/mcanouil/quarto-codespaces/tree/main/.github/.devcontainer).
+2. L'[extension `quarto`](https://github.com/quarto-dev/quarto) pour Visual Studio Code / Positron pour fournir un support pour les documents Quarto.
+3. L'[extension `quarto-wizard`](https://github.com/mcanouil/quarto-wizard) pour Visual Studio Code / Positron pour fournir une assistance dans la gestion des extensions Quarto.
+
+## Personnaliser votre environnement
+
+Une configuration de base peut suffire, mais les utilisateurs avancés affinent souvent leur environnement`&nbsp;`{=html}:
+
+```{.json code-line-numbers="|5-8|10-12|"}
+{
+  "name": "My Dev Container",
+  "image": "ghcr.io/mcanouil/quarto-codespaces:latest",
+  "remoteUser": "vscode",
+  "features": { // <1>
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+  "customizations": {
+    "settings": { // <2>
+      "r.rterm.option": [ "--no-save", "--no-restore-data", "--quiet"]
+    },
+    "vscode": {
+      "extensions": ["quarto.quarto", "mcanouil.quarto-wizard"]
+    }
+  }
+}
+```
+
+1. **Features**`&nbsp;`{=html}: Cette section vous permet d'ajouter des [fonctionnalités prédéfinies](https://containers.dev/features) à votre conteneur, telles que **Docker-in-Docker** ou la **GitHub CLI**.
+2. **Settings**`&nbsp;`{=html}: Des paramètres personnalisés de Visual Studio Code peuvent être définis ici, tels que les options R.
+
+# Construction et exécution`<br>`{=html}du conteneur de développement {.center-x}
+
+{{< iconify octicon:container-24 size=5x >}}
+
+## Visual Studio Code
+
+[Une fois la configuration établie, construire et exécuter le conteneur est simple`&nbsp;`{=html}:]{.fragment fragment-index="1"}
+
+1. [Ouvrez la **palette de commandes** et sélectionnez « *Dev Containers: Reopen in Container* ».]{.fragment fragment-index="2"}
+2. [VS Code construira le conteneur en fonction de la configuration.]{.fragment fragment-index="3"}
+3. [Une fois construit, le conteneur se lancera et vous pourrez commencer à coder.]{.fragment fragment-index="4"}
+
+## GitHub Codespaces
+
+[Pour ceux qui utilisent GitHub Codespaces, le processus est similaire`&nbsp;`{=html}:]{.fragment fragment-index="1"}
+
+1. [Ouvrez votre dépôt sur GitHub.]{.fragment fragment-index="2"}
+2. [Cliquez sur le bouton vert « *Code* » et sélectionnez « *Open with Codespaces* ».]{.fragment fragment-index="3"}
+3. [GitHub construira automatiquement le conteneur de développement en fonction de la configuration.]{.fragment fragment-index="4"}
+4. [Une fois le Codespace prêt, vous pouvez commencer à coder directement dans le navigateur.]{.fragment fragment-index="5"}
+
+## L'interface en ligne de commande
+
+:::: {.fragment fragment-index="1"}
+
+Pour les utilisateurs avancés, l'[interface en ligne de commande des conteneurs de développement](https://code.visualstudio.com/docs/devcontainers/devcontainer-cli) offre une flexibilité supplémentaire.
+Avec de simples commandes, les développeurs peuvent construire, démarrer et interagir avec leurs conteneurs depuis le terminal.
+
+:::
+
+
+:::: {.fragment fragment-index="2"}
+
+1. Installez la CLI globalement en utilisant `npm``&nbsp;`{=html}:
+
+   ```sh
+   npm install -g @devcontainers/cli
+   ```
+
+:::
+
+:::: {.fragment fragment-index="3"}
+
+1. Utilisez la CLI pour construire et exécuter votre conteneur de développement`&nbsp;`{=html}:
+
+   ```sh
+   devcontainer build --workspace-folder .
+   devcontainer up --id-label name=my-container --workspace-folder .
+   devcontainer exec --id-label name=my-container pwd
+   ```
+
+:::
+
+# Démonstration en direct {.center-x}
+
+[{{< iconify octicon:play-24 size=5x >}}](vscode:://file/Users/mcanouil/Projects/pro/training/devcontainer-introduction/)
+
+# Conclusion {.center-x}
+
+{{< iconify octicon:issue-closed-24 size=5x >}}
+
+## Cas d'usage et avantages
+
+:::: {style="font-size: 85%;"}
+
+:::: {.fragment fragment-index="1"}
+
+Imaginez un développeur qui passe d'une machine à l'autre ou qui travaille à distance.  
+Au lieu de réinstaller les dépendances, il ouvre simplement son projet à l'intérieur d'un conteneur de développement préconfiguré.
+
+:::
+
+:::: {.fragment fragment-index="2"}
+
+Autres avantages`&nbsp;`{=html}:
+
+:::
+
+- [{{< iconify octicon:cloud-24 >}} **Développement à distance`&nbsp;`{=html}:** Travailler sur du code depuis n'importe quel système.]{.fragment fragment-index="3"}
+- [{{< iconify octicon:people-24 >}} **Collaboration d'équipe`&nbsp;`{=html}:** Partager un environnement de développement unifié.]{.fragment fragment-index="4"}
+- [{{< iconify octicon:beaker-24 >}} **Isolation`&nbsp;`{=html}:** Expérimenter avec des dépendances sans risquer la machine hôte.]{.fragment fragment-index="5"}
+- [{{< iconify octicon:terminal-24 >}} **Intégration CI/CD`&nbsp;`{=html}:** Garantir la reproductibilité des builds.]{.fragment fragment-index="6"}
+
+:::
+
+## Résumé
+
+:::: {.fragment fragment-index="1"}
+
+Les conteneurs de développement fournissent un environnement de développement structuré et fiable qui simplifie l'intégration et améliore la collaboration.  
+Que vous travailliez seul ou en équipe, l'adoption du développement conteneurisé garantit que tout le monde travaille dans la même configuration préconfigurée.
+
+:::
+
+:::: {layout="[0.10, 0.80, 0.10]" style="text-align: center;" .fragment fragment-index="2"}
+
+{{< iconify octicon:sparkles-fill-24 size=5x >}}
+
+Avec les conteneurs de développement, le développement devient plus prévisible et efficace.
+Adoptez le changement dès aujourd'hui`&nbsp;`{=html}!
+
+{{< iconify octicon:sparkles-fill-24 size=5x flip="horizontal" >}}
+
+:::
+
+## Ressources supplémentaires
+
+:::: {layout="[0.44, -0.02, 0.44]" layout-valign="center" .center-y}
+
+:::: {}
+- [Cette présentation en PDF](https://m.canouil.dev/devcontainer-introduction/devcontainer-introduction.pdf)
+- [Présentation des conteneurs de développement](https://code.visualstudio.com/docs/devcontainers/containers)
+- [Créer un conteneur de développement](https://code.visualstudio.com/docs/devcontainers/create-dev-container)
+:::
+
+:::: {}
+- [Spécification des conteneurs de développement](https://containers.dev/)
+- [Fonctionnalités des conteneurs de développement](https://containers.dev/features)
+- [GitHub Codespaces](https://docs.github.com/en/codespaces/about-codespaces/what-are-codespaces)
+:::
+
+:::
+
+{{< include _extensions/mcanouil/coeos/_about.qmd >}}
